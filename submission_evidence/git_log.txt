@@ -1,2 +1,5 @@
-eca9d24 2026-04-29 10:38:43 +0800 UniHelp Team Add submission evidence log
-a9c2d0b 2026-04-29 10:38:27 +0800 UniHelp Team Implement UniHelp Planner prototype
+871d978 2026-04-29 15:50:56 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Complete portfolio PDF content
+4fa493b 2026-04-29 15:47:09 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Add portfolio artefacts
+b1ec6a0 2026-04-29 10:39:00 +0800 UniHelp Team <unihelp@example.com> Update exported git log
+eca9d24 2026-04-29 10:38:43 +0800 UniHelp Team <unihelp@example.com> Add submission evidence log
+a9c2d0b 2026-04-29 10:38:27 +0800 UniHelp Team <unihelp@example.com> Implement UniHelp Planner prototype
