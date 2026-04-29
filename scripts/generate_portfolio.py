@@ -337,6 +337,9 @@ def p(text, style):
 
 def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
     styles = getSampleStyleSheet()
+    small = styles["BodyText"].clone("SmallBody")
+    small.fontSize = 7
+    small.leading = 9
     story = []
     story.append(p("Agile Product Portfolio", styles["Title"]))
     story.append(p(PROJECT_TITLE, styles["Heading2"]))
@@ -345,13 +348,16 @@ def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
     story.append(p(f"Git repository: {GITHUB_URL}", styles["Normal"]))
     story.append(Spacer(1, 0.2 * inch))
 
-    def add_section(title, paragraphs=None, table_data=None):
+    def table_cells(table_data):
+        return [[Paragraph(str(cell), small) for cell in row] for row in table_data]
+
+    def add_section(title, paragraphs=None, table_data=None, col_widths=None):
         story.append(p(title, styles["Heading1"]))
         for para in paragraphs or []:
             story.append(p(para, styles["Normal"]))
             story.append(Spacer(1, 0.08 * inch))
         if table_data:
-            table = Table(table_data, repeatRows=1)
+            table = Table(table_cells(table_data), repeatRows=1, colWidths=col_widths)
             table.setStyle(
                 TableStyle(
                     [
@@ -361,28 +367,52 @@ def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
                         ("FONTSIZE", (0, 0), (-1, -1), 7),
                         ("LEFTPADDING", (0, 0), (-1, -1), 4),
                         ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+                        ("TOPPADDING", (0, 0), (-1, -1), 4),
+                        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
                     ]
                 )
             )
             story.append(table)
             story.append(Spacer(1, 0.16 * inch))
 
+    add_section("Group Members", table_data=[["Student ID", "Student Name", "Email"], [STUDENT_ID, STUDENT_NAME, STUDENT_EMAIL]], col_widths=[1.2 * inch, 2.0 * inch, 3.0 * inch])
     add_section(
-        "1. Planning",
+        "1. Planning - Personas",
+        table_data=[
+            ["Persona", "Role / user type", "Goals", "Pain points", "Stories"],
+            ["Alex Chen", "International postgraduate student", "Submit coursework on time, understand urgent work, and find support without searching many pages.", "Several close deadlines; unfamiliar support routes; may delay asking for help.", "S1, S2, S3"],
+            ["Dr Sarah Patel", "Academic tutor / wellbeing referrer", "Encourage students to seek the right support early and make workload discussions concrete.", "Students often describe pressure generally without structured task or wellbeing evidence.", "S1, S2, S3"],
+        ],
+        col_widths=[1.0 * inch, 1.35 * inch, 1.75 * inch, 1.65 * inch, 0.7 * inch],
+    )
+    add_section(
+        "1.2 Product Vision",
         [
-            "Personas: Alex Chen is an international postgraduate student who needs a clear plan and support routes. Dr Sarah Patel is an academic tutor/wellbeing referrer who wants students to seek help earlier.",
-            "Product vision: FOR university students WHO struggle to manage academic pressure and find suitable support, UniHelp Planner is a university student support platform THAT helps students prioritise workload, find relevant support resources, and reflect on wellbeing. UNLIKE scattered university webpages and email guidance, OUR PRODUCT gives simple personalised guidance in one workflow.",
+            "FOR university students WHO struggle to manage academic pressure and find suitable support, UniHelp Planner is a university student support platform THAT helps students prioritise workload, find relevant support resources, and reflect on wellbeing. UNLIKE scattered university webpages and email guidance, OUR PRODUCT gives simple personalised guidance in one workflow.",
         ],
     )
     add_section(
         "2. Product Backlog and Sprint Summary",
         table_data=[
-            ["ID", "Story", "Acceptance criteria", "Priority", "Sprint", "Owner"],
-            ["S1", "Add coursework tasks and see what to work on first.", "Task, deadline, hours, difficulty are saved and prioritised.", "Must", "1 and refined in 2", STUDENT_NAME],
-            ["S2", "Select a problem type and find support quickly.", "Category and urgency return matching resources.", "Must", "2", STUDENT_NAME],
-            ["S3", "Complete wellbeing check-in and receive guidance.", "Mood, stress, sleep are saved and produce risk recommendation.", "Must", "2", STUDENT_NAME],
-            ["S4", "Login", "Valid credentials allow access.", "Could", "Deferred", STUDENT_NAME],
+            ["ID", "Feature", "User story", "Acceptance criteria", "Priority", "Sprint", "Owner"],
+            ["S1", "Academic workload", "As a student, I want to add coursework tasks with deadlines so that I can see what I should work on first.", "Task, deadline, hours, and difficulty are saved and displayed in a prioritised list with advice.", "Must", "1 and refined in 2", STUDENT_NAME],
+            ["S2", "Support access", "As a student, I want to choose the type of problem I am facing so that I can find relevant support quickly.", "Category and urgency return matching support resources and contact routes.", "Must", "2", STUDENT_NAME],
+            ["S3", "Wellbeing reflection", "As a student, I want to complete a wellbeing check-in so that I can receive basic guidance on what support action to take.", "Mood, stress, and sleep are saved and produce a risk-level recommendation.", "Must", "2", STUDENT_NAME],
+            ["S4", "Account management", "As a student, I want to log in so that my information is private.", "Valid credentials allow access.", "Could", "Deferred", STUDENT_NAME],
         ],
+        col_widths=[0.35 * inch, 0.8 * inch, 1.85 * inch, 1.8 * inch, 0.5 * inch, 0.65 * inch, 0.85 * inch],
+    )
+    add_section(
+        "2.2 Sprint Summary",
+        table_data=[
+            ["Item", "Sprint 1 (Weeks 2-6)", "Sprint 2 (Weeks 7-11)"],
+            ["Planned stories", "S1", "S1 refinement, S2, S3"],
+            ["Delivered stories", "S1", "S1 refinement, S2, S3"],
+            ["Stories not completed", "S4 login was deferred", "S4 remained deferred"],
+            ["Key change", "Build smallest useful MVP around workload planning.", "Improve usability, add support finder and wellbeing check-in."],
+            ["Learning", "A simple planner gave clearer end-to-end value than a broad portal.", "Personalised recommendations aligned better with Challenge 3."],
+        ],
+        col_widths=[1.35 * inch, 2.5 * inch, 2.5 * inch],
     )
     add_section(
         "3. Design Evidence",
@@ -396,6 +426,16 @@ def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
     story.append(Image(str(seq_png), width=6.4 * inch, height=4.05 * inch))
     story.append(PageBreak())
     add_section(
+        "3.2 Stories and Evidence",
+        table_data=[
+            ["Story", "Evidence type", "Reference", "Criteria met", "Notes"],
+            ["S1", "Source code, automated test, screenshot, video", "app/routes.py, app/services.py, tests/test_app.py, workload_screenshot.png, video 0:30-1:25", "Yes", "Task data is saved and priority advice is displayed."],
+            ["S2", "Source code, automated test, video", "app/routes.py, app/db.py, tests/test_app.py, video 1:25-2:05", "Yes", "Resources are filtered by category and urgency."],
+            ["S3", "Source code, automated test, video", "app/routes.py, app/services.py, tests/test_app.py, video 2:05-2:45", "Yes", "Check-in is saved and high/medium/low recommendation is displayed."],
+        ],
+        col_widths=[0.45 * inch, 1.45 * inch, 2.25 * inch, 0.7 * inch, 1.7 * inch],
+    )
+    add_section(
         "4. Working Prototype",
         [
             "The prototype is a Flask + SQLite + Bootstrap web application. The video unihelp_prototype_demo.mp4 demonstrates S1 workload prioritisation, S2 support finder, and S3 wellbeing check-in. The video duration is approximately 3 minutes 3 seconds.",
@@ -404,23 +444,44 @@ def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
     add_section(
         "5. Testing and Evaluation",
         table_data=[
-            ["Story", "Test", "Outcome", "Evidence"],
-            ["S1", "POST /tasks saves and displays priority.", "Pass", "tests/test_app.py, workload screenshots"],
-            ["S2", "POST /resources returns category/urgency resources.", "Pass", "tests/test_app.py"],
-            ["S3", "POST /wellbeing saves check-in and recommendation.", "Pass", "tests/test_app.py"],
-            ["All", "Automated pytest suite.", "6 passed", "submission_evidence/test_results.txt"],
+            ["Story", "Acceptance criteria", "Test performed", "Outcome", "Accessibility checked", "Notes"],
+            ["S1", "Task form saves data and displays priority output.", "pytest client POST to /tasks plus browser screenshot.", "Pass", "Labels and responsive layout checked.", "Automated test confirms database row and visible result."],
+            ["S2", "Selected support category returns matching resources.", "pytest client POST to /resources.", "Pass", "Keyboard-selectable form controls.", "Urgent wellbeing search returns wellbeing and urgent support routes."],
+            ["S3", "Check-in generates recommendation and stores evidence.", "pytest client POST to /wellbeing.", "Pass", "Labels and range controls checked.", "High stress and low mood return high-pressure recommendation."],
+            ["All", "All Done stories have at least one mapped test.", "Automated pytest suite.", "6 passed", "N/A", "Evidence file: submission_evidence/test_results.txt."],
         ],
+        col_widths=[0.45 * inch, 1.3 * inch, 1.3 * inch, 0.55 * inch, 1.15 * inch, 1.5 * inch],
     )
     add_section(
-        "Appendix - Contribution and Meetings",
+        "Appendix A - Group Contribution",
+        table_data=[
+            ["Story", "Title", "Predicted hours", "Actual hours", "Status", "Owner"],
+            ["S1", "Prioritise coursework tasks", "6", "7", "DONE", STUDENT_NAME],
+            ["S2", "Find relevant support resources", "5", "5", "DONE", STUDENT_NAME],
+            ["S3", "Generate wellbeing guidance", "5", "6", "DONE", STUDENT_NAME],
+            ["S4", "Student login", "4", "0", "TODO / deferred", STUDENT_NAME],
+        ],
+        col_widths=[0.45 * inch, 1.8 * inch, 0.85 * inch, 0.75 * inch, 0.9 * inch, 1.2 * inch],
+    )
+    add_section(
+        "Appendix B - Individual Contribution",
+        table_data=[
+            ["Member", "Roles", "Stories owned", "Evidence", "Could improve with more time"],
+            [STUDENT_NAME, "Product owner, developer, tester, documentation owner", "S1, S2, S3; S4 deferred", "Git commits, app source code, tests, screenshots, prototype video", "Add authentication, richer university data, more accessibility testing, and TA/customer feedback iteration."],
+        ],
+        col_widths=[0.95 * inch, 1.35 * inch, 1.1 * inch, 1.45 * inch, 1.55 * inch],
+    )
+    add_section(
+        "Appendix C - Meeting Logs",
         [
-            f"{STUDENT_NAME} completed product planning, implementation, testing, documentation, evidence packaging, and video generation.",
-            "Meeting log note: solo planning records are included. Replace with real TA/customer meeting details before submission if those meetings occurred.",
+            "Important note: the following logs record the solo development planning evidence available at packaging time. If TA/customer meetings occurred, replace these entries with the real TA meeting details before final submission.",
         ],
         table_data=[
-            ["Member", "Roles", "Stories", "Evidence"],
-            [STUDENT_NAME, "Product owner, developer, tester, documentation owner", "S1, S2, S3", "Git log, tests, screenshots, video"],
+            ["Meeting ID", "Team attendees", "Customer / TA", "When", "Agenda items", "Actions and owner"],
+            ["M1", STUDENT_NAME, "Not recorded", "2026-04-29", "Define focused MVP for Challenge 3 and select core user stories.", "Implement S1 first; owner: Chenshan Zhang."],
+            ["M2", STUDENT_NAME, "Not recorded", "2026-04-29", "Review prototype scope, testing evidence, and video demonstration.", "Complete S2, S3, tests, video, and portfolio; owner: Chenshan Zhang."],
         ],
+        col_widths=[0.65 * inch, 1.05 * inch, 0.9 * inch, 0.8 * inch, 1.65 * inch, 1.45 * inch],
     )
 
     doc = SimpleDocTemplate(str(out_path), pagesize=A4, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
