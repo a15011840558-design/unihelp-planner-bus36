@@ -145,7 +145,7 @@ def wellbeing():
             ),
         )
         database.commit()
-        flash("Check-in saved and recommendation generated.", "success")
+        flash("Check-in saved and recommendation ready.", "success")
 
     checkins = database.execute(
         "SELECT * FROM wellbeing_checkins ORDER BY created_at DESC LIMIT 8"

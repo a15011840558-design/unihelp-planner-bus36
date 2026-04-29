@@ -21,7 +21,7 @@ The prototype focuses on one clear opportunity: students often face academic pre
 ## Run locally
 
 ```bash
-cd /Users/wangzhaofeng/codex/student_help_platform
+cd student_help_platform
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -33,7 +33,7 @@ Open `http://127.0.0.1:5000`.
 ## Run tests
 
 ```bash
-cd /Users/wangzhaofeng/codex/student_help_platform
+cd student_help_platform
 pytest -q
 ```
 
@@ -42,7 +42,7 @@ pytest -q
 1. Start on the dashboard and state the product vision.
 2. Story S1: add a coursework task, show priority advice, change status.
 3. Story S2: select wellbeing or academic support, show recommended resources.
-4. Story S3: submit a high-stress wellbeing check-in, show the generated recommendation.
+4. Story S3: submit a high-stress wellbeing check-in, show the support recommendation.
 5. End by explaining that each flow demonstrates input, processing, output, and acceptance criteria.
 
 ## Portfolio notes
@@ -58,7 +58,7 @@ Suggested class diagram entities:
 
 Suggested sequence diagrams:
 
-- Add task and generate priority recommendation.
-- Submit wellbeing check-in and generate support recommendation.
+- Add task and calculate priority recommendation.
+- Submit wellbeing check-in and show support recommendation.
 
 The app stores data in SQLite at `instance/student_help.sqlite` when run locally. The database is created automatically and seeded with support resources.

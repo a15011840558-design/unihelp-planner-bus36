@@ -33,7 +33,7 @@
   <div class="col-lg-8">
     {% if recommendation %}
       <section class="recommendation mb-4 recommendation-{{ recommendation.risk_level|lower }}">
-        <p class="text-uppercase small fw-semibold mb-2">Generated recommendation</p>
+        <p class="text-uppercase small fw-semibold mb-2">Recommendation</p>
         <h2 class="h4">{{ recommendation.risk_level }} pressure</h2>
         <p class="mb-0">{{ recommendation.message }}</p>
       </section>

@@ -105,7 +105,7 @@ async function main() {
   await setCaption(
     page,
     "Story S3 - Wellbeing check-in",
-    "Acceptance criteria: given mood, stress, and sleep values, the system stores the check-in and generates a risk-level recommendation."
+    "Acceptance criteria: given mood, stress, and sleep values, the system stores the check-in and shows a risk-level recommendation."
   );
   await wait(page, 12);
   await page.getByLabel("Mood today").fill("2");

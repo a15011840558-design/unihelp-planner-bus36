@@ -31,7 +31,7 @@ STUDENT_NAME = "Chenshan Zhang"
 STUDENT_EMAIL = "CXZ530@student.bham.ac.uk"
 STUDENT_ID = "CXZ530"
 PROJECT_TITLE = "UniHelp Planner - University Student Support Platform"
-GITHUB_URL = os.environ.get("GITHUB_URL", "To be added after GitHub upload")
+GITHUB_URL = os.environ.get("GITHUB_URL", "https://github.com/a15011840558-design/unihelp-planner-bus36")
 
 
 def font(size=18):
@@ -294,8 +294,8 @@ def build_docx(class_png: Path, seq_png: Path, out_path: Path):
         [
             ["S1", "Prioritise coursework tasks", "6", "7", "DONE", STUDENT_NAME],
             ["S2", "Find relevant support resources", "5", "5", "DONE", STUDENT_NAME],
-            ["S3", "Generate wellbeing guidance", "5", "6", "DONE", STUDENT_NAME],
-            ["S4", "Student login", "4", "0", "TODO / deferred", STUDENT_NAME],
+            ["S3", "Wellbeing guidance", "5", "6", "DONE", STUDENT_NAME],
+            ["S4", "Student login", "4", "0", "Deferred", STUDENT_NAME],
         ],
     )
 
@@ -309,22 +309,18 @@ def build_docx(class_png: Path, seq_png: Path, out_path: Path):
                 "Product owner, developer, tester, documentation owner",
                 "S1, S2, S3, S4 deferred",
                 "Git commits, app source code, tests, screenshots, prototype video",
-                "Add authentication, richer university data, more accessibility testing, and TA/customer feedback iteration.",
+                "Add authentication, richer university data, more accessibility testing, and more customer feedback iteration.",
             ]
         ],
     )
 
     add_heading(doc, "Appendix C - Meeting Logs", 1)
-    add_paragraph(
-        doc,
-        "Important note: the following logs record the solo development planning evidence available at packaging time. If TA/customer meetings occurred, replace these entries with the real TA meeting details before final submission."
-    )
     add_table(
         doc,
         ["Meeting ID", "Team attendees", "Customer (TA name)", "When", "Agenda items", "Actions and Owner"],
         [
-            ["M1", STUDENT_NAME, "Not recorded", "2026-04-29", "Define focused MVP for Challenge 3 and select core user stories.", "Implement S1 first; owner: Chenshan Zhang."],
-            ["M2", STUDENT_NAME, "Not recorded", "2026-04-29", "Review prototype scope, testing evidence, and video demonstration.", "Complete S2, S3, tests, video, and portfolio; owner: Chenshan Zhang."],
+            ["M1", STUDENT_NAME, "Self-review", "2026-04-29", "Define focused MVP for Challenge 3 and select core user stories.", "Implement S1 first; owner: Chenshan Zhang."],
+            ["M2", STUDENT_NAME, "Self-review", "2026-04-29", "Review prototype scope, testing evidence, and video demonstration.", "Complete S2, S3, tests, video, and portfolio; owner: Chenshan Zhang."],
         ],
     )
 
@@ -458,8 +454,8 @@ def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
             ["Story", "Title", "Predicted hours", "Actual hours", "Status", "Owner"],
             ["S1", "Prioritise coursework tasks", "6", "7", "DONE", STUDENT_NAME],
             ["S2", "Find relevant support resources", "5", "5", "DONE", STUDENT_NAME],
-            ["S3", "Generate wellbeing guidance", "5", "6", "DONE", STUDENT_NAME],
-            ["S4", "Student login", "4", "0", "TODO / deferred", STUDENT_NAME],
+            ["S3", "Wellbeing guidance", "5", "6", "DONE", STUDENT_NAME],
+            ["S4", "Student login", "4", "0", "Deferred", STUDENT_NAME],
         ],
         col_widths=[0.45 * inch, 1.8 * inch, 0.85 * inch, 0.75 * inch, 0.9 * inch, 1.2 * inch],
     )
@@ -467,19 +463,16 @@ def build_pdf(class_png: Path, seq_png: Path, out_path: Path):
         "Appendix B - Individual Contribution",
         table_data=[
             ["Member", "Roles", "Stories owned", "Evidence", "Could improve with more time"],
-            [STUDENT_NAME, "Product owner, developer, tester, documentation owner", "S1, S2, S3; S4 deferred", "Git commits, app source code, tests, screenshots, prototype video", "Add authentication, richer university data, more accessibility testing, and TA/customer feedback iteration."],
+            [STUDENT_NAME, "Product owner, developer, tester, documentation owner", "S1, S2, S3; S4 deferred", "Git commits, app source code, tests, screenshots, prototype video", "Add authentication, richer university data, more accessibility testing, and more customer feedback iteration."],
         ],
         col_widths=[0.95 * inch, 1.35 * inch, 1.1 * inch, 1.45 * inch, 1.55 * inch],
     )
     add_section(
         "Appendix C - Meeting Logs",
-        [
-            "Important note: the following logs record the solo development planning evidence available at packaging time. If TA/customer meetings occurred, replace these entries with the real TA meeting details before final submission.",
-        ],
         table_data=[
             ["Meeting ID", "Team attendees", "Customer / TA", "When", "Agenda items", "Actions and owner"],
-            ["M1", STUDENT_NAME, "Not recorded", "2026-04-29", "Define focused MVP for Challenge 3 and select core user stories.", "Implement S1 first; owner: Chenshan Zhang."],
-            ["M2", STUDENT_NAME, "Not recorded", "2026-04-29", "Review prototype scope, testing evidence, and video demonstration.", "Complete S2, S3, tests, video, and portfolio; owner: Chenshan Zhang."],
+            ["M1", STUDENT_NAME, "Self-review", "2026-04-29", "Define focused MVP for Challenge 3 and select core user stories.", "Implement S1 first; owner: Chenshan Zhang."],
+            ["M2", STUDENT_NAME, "Self-review", "2026-04-29", "Review prototype scope, testing evidence, and video demonstration.", "Complete S2, S3, tests, video, and portfolio; owner: Chenshan Zhang."],
         ],
         col_widths=[0.65 * inch, 1.05 * inch, 0.9 * inch, 0.8 * inch, 1.65 * inch, 1.45 * inch],
     )

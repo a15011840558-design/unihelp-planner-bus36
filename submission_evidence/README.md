@@ -12,4 +12,4 @@ Recommended mapping:
 
 The prototype video is stored separately at `output/video/unihelp_prototype_demo.mp4`.
 
-The remote Git repo link still needs to be added after the group uploads this project to GitHub/GitLab.
+Git repository: https://github.com/a15011840558-design/unihelp-planner-bus36
