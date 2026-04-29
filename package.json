@@ -1,0 +1,18 @@
+{
+  "name": "student_help_platform",
+  "version": "1.0.0",
+  "description": "Flask + SQLite + Bootstrap prototype for Challenge 3: Student Help - A University Student Support Platform.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "record-demo": "node scripts/record_demo.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
+}

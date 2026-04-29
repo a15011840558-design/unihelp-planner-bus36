@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% set title = "UniHelp Planner Dashboard" %}
+
+{% block content %}
+<section class="dashboard-header mb-4">
+  <div>
+    <p class="text-uppercase text-muted small fw-semibold mb-2">Challenge 3 prototype</p>
+    <h1 class="h2 mb-2">University student support in one focused workflow</h1>
+    <p class="text-muted mb-0">Plan academic work, find the right support route, and reflect on wellbeing before problems escalate.</p>
+  </div>
+</section>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <a class="feature-card d-block h-100" href="{{ url_for('main.tasks') }}">
+      <span class="badge text-bg-primary mb-3">Story S1</span>
+      <h2 class="h5">Academic workload planner</h2>
+      <p>Add coursework tasks and receive a priority recommendation based on deadline, workload, and difficulty.</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a class="feature-card d-block h-100" href="{{ url_for('main.resources') }}">
+      <span class="badge text-bg-success mb-3">Story S2</span>
+      <h2 class="h5">Support resource finder</h2>
+      <p>Choose a support need and get relevant university resources without searching several pages.</p>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a class="feature-card d-block h-100" href="{{ url_for('main.wellbeing') }}">
+      <span class="badge text-bg-warning mb-3">Story S3</span>
+      <h2 class="h5">Wellbeing check-in</h2>
+      <p>Record mood, stress, and sleep to receive a simple support recommendation.</p>
+    </a>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <section class="panel">
+      <h2 class="h5 mb-3">Current workload</h2>
+      {% if tasks %}
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Module</th>
+                <th>Deadline</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for task in tasks %}
+                <tr>
+                  <td>{{ task.title }}</td>
+                  <td>{{ task.module }}</td>
+                  <td>{{ task.deadline }}</td>
+                  <td><span class="status-pill">{{ task.status.replace('_', ' ') }}</span></td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted mb-0">No tasks yet. Add one in the workload planner.</p>
+      {% endif %}
+    </section>
+  </div>
+  <div class="col-lg-5">
+    <section class="panel">
+      <h2 class="h5 mb-3">Recent check-ins</h2>
+      {% if checkins %}
+        <ul class="list-unstyled mb-0 vstack gap-3">
+          {% for checkin in checkins %}
+            <li>
+              <div class="d-flex justify-content-between">
+                <strong>{{ checkin.risk_level }} pressure</strong>
+                <span class="text-muted small">{{ checkin.created_at[:10] }}</span>
+              </div>
+              <p class="text-muted small mb-0">{{ checkin.recommendation }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted mb-0">No wellbeing check-ins yet.</p>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

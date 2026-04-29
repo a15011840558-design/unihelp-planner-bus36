@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% set title = "Workload Planner" %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <section class="panel">
+      <h1 class="h4 mb-3">Add coursework task</h1>
+      <form method="post" class="vstack gap-3">
+        <div>
+          <label class="form-label" for="title">Task title</label>
+          <input class="form-control" id="title" name="title" required placeholder="BUS portfolio section">
+        </div>
+        <div>
+          <label class="form-label" for="module">Module</label>
+          <input class="form-control" id="module" name="module" required placeholder="Building Useable Software">
+        </div>
+        <div>
+          <label class="form-label" for="deadline">Deadline</label>
+          <input class="form-control" id="deadline" type="date" name="deadline" required>
+        </div>
+        <div>
+          <label class="form-label" for="estimated_hours">Estimated hours</label>
+          <input class="form-control" id="estimated_hours" type="number" step="0.5" min="0.5" name="estimated_hours" required value="3">
+        </div>
+        <div>
+          <label class="form-label" for="difficulty">Difficulty</label>
+          <select class="form-select" id="difficulty" name="difficulty">
+            <option value="1">1 - Very easy</option>
+            <option value="2">2 - Easy</option>
+            <option value="3" selected>3 - Moderate</option>
+            <option value="4">4 - Hard</option>
+            <option value="5">5 - Very hard</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Add and prioritise</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="col-lg-8">
+    <section class="panel">
+      <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mb-3">
+        <div>
+          <h1 class="h4 mb-1">Prioritised task list</h1>
+          <p class="text-muted mb-0">Input is processed into a visible priority output for Story S1.</p>
+        </div>
+      </div>
+      {% if tasks %}
+        <div class="vstack gap-3">
+          {% for task in tasks %}
+            <article class="task-row">
+              <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+                <div>
+                  <span class="priority priority-{{ task.priority.level|lower }}">{{ task.priority.level }} priority</span>
+                  <h2 class="h5 mt-2 mb-1">{{ task.title }}</h2>
+                  <p class="text-muted mb-2">{{ task.module }} | due {{ task.deadline }} | {{ task.estimated_hours }}h | difficulty {{ task.difficulty }}/5</p>
+                  <p class="mb-0">{{ task.priority.advice }}</p>
+                </div>
+                <form method="post" action="{{ url_for('main.update_task_status', task_id=task.id) }}" class="status-form">
+                  <label class="form-label small text-muted" for="status-{{ task.id }}">Status</label>
+                  <select class="form-select form-select-sm" id="status-{{ task.id }}" name="status" onchange="this.form.submit()">
+                    {% for status in ["todo", "in_progress", "done"] %}
+                      <option value="{{ status }}" {% if task.status == status %}selected{% endif %}>{{ status.replace('_', ' ') }}</option>
+                    {% endfor %}
+                  </select>
+                </form>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted mb-0">Add a task to generate the first priority recommendation.</p>
+      {% endif %}
+    </section>
+  </div>
+</div>
+{% endblock %}

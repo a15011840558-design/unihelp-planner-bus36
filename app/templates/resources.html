@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% set title = "Support Resource Finder" %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <section class="panel">
+      <h1 class="h4 mb-3">Find support</h1>
+      <form method="post" class="vstack gap-3">
+        <div>
+          <label class="form-label" for="category">What do you need help with?</label>
+          <select class="form-select" id="category" name="category">
+            <option value="academic" {% if selected_category == "academic" %}selected{% endif %}>Academic workload</option>
+            <option value="wellbeing" {% if selected_category == "wellbeing" %}selected{% endif %}>Wellbeing or personal issue</option>
+            <option value="social" {% if selected_category == "social" %}selected{% endif %}>Social connection</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label" for="urgency">Urgency</label>
+          <select class="form-select" id="urgency" name="urgency">
+            <option value="standard" {% if selected_urgency == "standard" %}selected{% endif %}>Standard guidance</option>
+            <option value="urgent" {% if selected_urgency == "urgent" %}selected{% endif %}>Urgent concern</option>
+          </select>
+        </div>
+        <button class="btn btn-success" type="submit">Show resources</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="col-lg-8">
+    <section class="panel">
+      <h1 class="h4 mb-1">Recommended resources</h1>
+      <p class="text-muted mb-4">{{ explanation }}</p>
+      <div class="row g-3">
+        {% for resource in resources %}
+          <div class="col-md-6">
+            <article class="resource-card h-100">
+              <div class="d-flex justify-content-between align-items-start gap-2">
+                <h2 class="h5 mb-2">{{ resource.name }}</h2>
+                <span class="badge {% if resource.urgency == 'urgent' %}text-bg-danger{% else %}text-bg-light{% endif %}">{{ resource.urgency }}</span>
+              </div>
+              <p class="text-muted">{{ resource.description }}</p>
+              <p class="mb-0"><strong>Contact:</strong> {{ resource.contact }}</p>
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}

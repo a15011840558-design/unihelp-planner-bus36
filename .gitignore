@@ -1,0 +1,9 @@
+.venv/
+node_modules/
+instance/
+__pycache__/
+.pytest_cache/
+.playwright-cli/
+output/video/raw/
+*.pyc
+.DS_Store
