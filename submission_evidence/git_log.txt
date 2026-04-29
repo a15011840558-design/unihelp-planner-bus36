@@ -1,3 +1,5 @@
+a8884fe 2026-04-29 16:33:45 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Clean submission wording and refresh evidence
+c6749e1 2026-04-29 16:18:23 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Refresh git log after remote upload
 029f370 2026-04-29 16:17:28 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Add GitHub repository link to portfolio
 c31ce04 2026-04-29 15:51:02 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Refresh final git log evidence
 871d978 2026-04-29 15:50:56 +0800 Chenshan Zhang <CXZ530@student.bham.ac.uk> Complete portfolio PDF content
